@@ -29,7 +29,12 @@ int main() {
         return 1;
     }
 
+    // initialize the CHIP-8 (and SDL event)
+    struct chip8 chip8;
+    initialize(&chip8);
     SDL_Event event;
+
+    // main loop
     while (1) {
         // handle quitting the program
         while (SDL_PollEvent(&event) != 0) {
@@ -37,35 +42,7 @@ int main() {
                 return 0;
             }
         }
-
-        // get the opcode
-        // since the opcode is 2 bytes long (8-bits * 2 = 16-bits), we need to merge the two bytes into a single 16-bit value
-        chip8.opcode = chip8.memory[chip8.pc] << 8 | chip8.memory[chip8.pc + 1];
-
-        // extract X, Y, N, and NN from the opcode
-        /*unsigned short X = (chip8.opcode & 0x0F00) >> 8;
-        unsigned short Y = (chip8.opcode & 0x00F0) >> 4;
-        unsigned short N = chip8.opcode & 0x000F;
-        unsigned short NN = chip8.opcode & 0x00FF;
-        unsigned short NNN = chip8.opcode & 0x0FFF;*/
-
-        // decode and execute the opcode
-        switch (chip8.opcode & 0xF000) {
-            // ...
-        }
-
-        // update timers
-        if (chip8.delay_timer > 0) {
-            chip8.delay_timer--;
-        }
-
-        if (chip8.sound_timer > 0) {
-            if (chip8.sound_timer == 1) {
-                // play a sound
-            }
-            chip8.sound_timer--;
-        }
-
+        cycle(&chip8);
     }
 
     SDL_DestroyRenderer(renderer);
