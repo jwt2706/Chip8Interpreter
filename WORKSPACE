@@ -7,8 +7,8 @@ http_archive(
     build_file_content = """
 cc_library(
     name = "SDL2",
-    srcs = glob(["SDL2-2.0.14/src/*.c", "SDL2-2.0.14/include/*.h"]),
-    hdrs = glob(["SDL2-2.0.14/include/*.h"]),
+    srcs = glob(["SDL2-2.0.14/src/**/*.c"]),
+    hdrs = glob(["SDL2-2.0.14/include/**/*.h"]),
     includes = ["SDL2-2.0.14/include"],
     visibility = ["//visibility:public"],
 )
