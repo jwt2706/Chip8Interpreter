@@ -1,11 +1,15 @@
 cc_library(
     name = "chip8",
-    srcs = ["chip8.c"],
-    hdrs = ["chip8.h"],
+    srcs = glob(["src/*.c"]),
+    hdrs = glob(["include/*.h"]),
+    includes = ["include"],
 )
 
 cc_binary(
     name = "main",
-    srcs = ["main.c"],
-    deps = [":chip8"],
+    srcs = ["src/main.c"],
+    deps = [
+        ":chip8",
+        "@SDL2//:SDL2",
+    ],
 )
