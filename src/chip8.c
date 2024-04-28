@@ -19,7 +19,7 @@ unsigned char fontset[80] = {
     0xF0, 0x80, 0xF0, 0x80, 0x80  // F
 };
 
-void initialize(struct chip8* chip8) {
+void initChip8(struct chip8* chip8) {
     // init/reset everything
     chip8->pc = 0x200;
     chip8->opcode = 0;

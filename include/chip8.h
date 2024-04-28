@@ -17,7 +17,7 @@ struct chip8 {
     unsigned char key[16]; // keypad
 };
 
-void initialize(struct chip8* chip8);
+void initChip8(struct chip8* chip8);
 void cycle(struct chip8* chip8);
 
 #endif

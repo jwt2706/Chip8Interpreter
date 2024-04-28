@@ -29,9 +29,9 @@ int main() {
         return 1;
     }
 
-    // initialize the CHIP-8 (and SDL event)
+    // init CHIP-8 (and SDL event)
     struct chip8 chip8;
-    initialize(&chip8);
+    initChip8(&chip8);
     SDL_Event event;
 
     // main loop
