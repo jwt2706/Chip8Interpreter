@@ -1,6 +1,7 @@
 #include <SDL2/SDL.h>
 #include "../include/chip8.h"
 #include "../include/sdlutils.h"
+#include "../include/load.h"
 
 int main() {
     // init sdl2
@@ -11,6 +12,9 @@ int main() {
     // init CHIP-8
     struct chip8 chip8;
     initChip8(&chip8);
+
+    // load ROM
+    loadRom(&chip8, "roms/IBMLogo.c8");
 
     // main loop
     while (1) {
