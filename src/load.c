@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "chip8.h"
+#include "../include/chip8.h"
 
 int loadRom(struct chip8* chip8, const char* filename) {
     FILE* rom = fopen(filename, "rb");
