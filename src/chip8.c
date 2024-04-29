@@ -1,4 +1,4 @@
-#include "chip8.h"
+#include "../include/chip8.h"
 
 unsigned char fontset[80] = {
     0xF0, 0x90, 0x90, 0x90, 0xF0, // 0

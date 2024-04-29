@@ -5,8 +5,8 @@ http_archive(
     build_file_content = """
 cc_library(
     name = "sdl2",
-    hdrs = glob(["include/*.h"]),
-    srcs = glob(["src/*.c"]),
+    hdrs = glob(["include/**/*.h"]),
+    srcs = glob(["src/**/*.c"]),
     visibility = ["//visibility:public"],
 )
 """,
