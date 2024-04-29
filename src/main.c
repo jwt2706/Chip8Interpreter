@@ -1,38 +1,20 @@
 #include <SDL2/SDL.h>
 #include "../include/chip8.h"
+#include "../include/sdlutils.h"
+#include "../include/load.h"
 
 int main() {
     // init sdl2
-    if (SDL_Init(SDL_INIT_VIDEO) < 0) {
-        printf("SDL could not initialize! SDL_Error: %s\n", SDL_GetError());
-        return 1;
-    }
-    
-    // create a window
-    SDL_Window* window = SDL_CreateWindow(
-        "CHIP-8 Interpreter",
-        SDL_WINDOWPOS_UNDEFINED,
-        SDL_WINDOWPOS_UNDEFINED,
-        640, // height
-        320, // width
-        SDL_WINDOW_SHOWN,
-    );
-    if (window == NULL) {
-        printf("Window could not be created! SDL_Error: %s\n", SDL_GetError());
-        return 1;
-    }
-
-    // create a renderer
-    SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-    if (renderer == NULL) {
-        printf("Renderer could not be created! SDL_Error: %s\n", SDL_GetError());
-        return 1;
-    }
-
-    // initialize the CHIP-8 (and SDL event)
-    struct chip8 chip8;
-    initialize(&chip8);
+    SDLComponents components;
+    if (initSDL(&components) != 0) return 1;
     SDL_Event event;
+
+    // init CHIP-8
+    struct chip8 chip8;
+    initChip8(&chip8);
+
+    // load ROM
+    loadRom(&chip8, "roms/IBMLogo.c8");
 
     // main loop
     while (1) {
@@ -43,11 +25,13 @@ int main() {
             }
         }
         cycle(&chip8);
+
+        // redraw display if drawFlag is true
+        if (chip8->drawFlag) {
+            redrawDisplay(&components, &chip8);
+            chip8->drawFlag = 0;
+        }
     }
-
-    SDL_DestroyRenderer(renderer);
-    SDL_DestroyWindow(window);
-    SDL_Quit();
-
+    destroySDL(&components);
     return 0;
 }
