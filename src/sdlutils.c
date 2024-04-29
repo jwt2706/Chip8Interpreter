@@ -28,6 +28,23 @@ void initSDL(SDLComponents* components) {
     }
 }
 
+void redrawDisplay(SDLComponents* components, struct chip8* chip8) {
+    SDL_SetRenderDrawColor(components->renderer, 0, 0, 0, 255); // black
+    SDL_RenderClear(components->renderer);
+
+    SDL_SetRenderDrawColor(components->renderer, 255, 255, 255, 255); // white
+    for (int y = 0; y < 32; y++) { // rows of the screen
+        for (int x = 0; x < 64; x++) { // columns of the screen
+            if (chip8->gfx[(y * 64) + x] == 1) {
+                SDL_Rect pixel = {x * 10, y * 10, 10, 10}; // pixel position and size
+                SDL_RenderFillRect(components->renderer, &pixel); // draw pixel
+            }
+        }
+    }
+
+    SDL_RenderPresent(components->renderer);
+}
+
 void destroySDL(SDLComponents* components) {
     SDL_DestroyRenderer(components->renderer);
     SDL_DestroyWindow(components->window);

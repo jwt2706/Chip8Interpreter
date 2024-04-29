@@ -25,6 +25,12 @@ int main() {
             }
         }
         cycle(&chip8);
+
+        // redraw display if drawFlag is true
+        if (chip8->drawFlag) {
+            redrawDisplay(&components, &chip8);
+            chip8->drawFlag = 0;
+        }
     }
     destroySDL(&components);
     return 0;
