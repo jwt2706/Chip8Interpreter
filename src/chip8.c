@@ -83,7 +83,9 @@ void cycle(struct chip8 *chip8)
             chip8->pc += 2;
             break;
         case 0x000E: // 00EE: Returns from a subroutine
-            // TODO
+            chip8->sp--;
+            chip8->pc = chip8->stack[chip8->sp];
+            chip8->pc += 2;
             break;
         }
         break;
@@ -91,7 +93,10 @@ void cycle(struct chip8 *chip8)
         chip8->pc = NNN;
         break;
     case 0x2000: // 2NNN: Calls subroutine at NNN
-        // TODO
+                 // store the current point counter on the stack so we can return later (see 1NNN)
+        chip8->stack[chip8->sp] = chip8->pc;
+        chip8->sp++;
+        chip8->pc = NNN;
         break;
     case 0x3000: // 3XNN: Skips the next instruction if VX equals NN
         // TODO
