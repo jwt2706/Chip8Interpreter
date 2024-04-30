@@ -1,6 +1,7 @@
 #include <SDL2/SDL.h>
-#include "../include/chip8.h"
 #include "../include/sdlutils.h"
+#include "../include/keyboard.h"
+#include "../include/chip8.h"
 #include "../include/load.h"
 
 int main()
@@ -15,6 +16,9 @@ int main()
     struct chip8 chip8;
     initChip8(&chip8);
 
+    // init keymap
+    initKeymap();
+
     // load ROM
     loadRom(&chip8, "roms/IBMLogo.ch8");
 
@@ -27,6 +31,10 @@ int main()
             if (event.type == SDL_QUIT)
             {
                 return 0;
+            }
+            else
+            {
+                handleKey(&chip8, event.key.keysym.sym, event.type == SDL_KEYUP);
             }
         }
         cycle(&chip8);

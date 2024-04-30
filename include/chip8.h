@@ -15,7 +15,7 @@ struct chip8
     unsigned char soundTimer;   // also self explanatory
     unsigned short stack[16];   // stack with 16 levels
     unsigned short sp;          // stack pointer
-    unsigned char key[16];      // keypad
+    unsigned char keys[16];     // keypad
     unsigned int drawFlag : 1;  // true only if the display needs to be redrawn, otherwise won't bother
 };
 
