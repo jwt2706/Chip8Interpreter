@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include "../include/chip8.h"
 
+#define F 0xF // the 16th V register is for the carry flag
+
 unsigned char fontset[80] = {
     0xF0, 0x90, 0x90, 0x90, 0xF0, // 0
     0x20, 0x60, 0x20, 0x20, 0x70, // 1
@@ -99,34 +101,13 @@ void cycle(struct chip8 *chip8)
         chip8->pc = NNN;
         break;
     case 0x3000: // 3XNN: Skips the next instruction if VX equals NN
-        if (chip8->V[X] == NN)
-        {
-            chip8->pc += 4;
-        }
-        else
-        {
-            chip8->pc += 2;
-        }
+        chip8->pc += (chip8->V[X] == NN) ? 4 : 2;
         break;
     case 0x4000: // 4XNN: Skips the next instruction if VX doesn't equal NN
-        if (chip8->V[X] != NN)
-        {
-            chip8->pc += 4;
-        }
-        else
-        {
-            chip8->pc += 2;
-        }
+        chip8->pc += (chip8->V[X] != NN) ? 4 : 2;
         break;
     case 0x5000: // 5XY0: Skips the next instruction if VX equals VY
-        if (chip8->V[X] == chip8->V[Y])
-        {
-            chip8->pc += 4;
-        }
-        else
-        {
-            chip8->pc += 2;
-        }
+        chip8->pc += (chip8->V[X] == chip8->V[Y]) ? 4 : 2;
         break;
     case 0x6000: // 6XNN: Sets VX to NN
         chip8->V[X] = NN;
@@ -140,43 +121,42 @@ void cycle(struct chip8 *chip8)
         switch (chip8->opcode & 0x000F)
         {
         case 0x0000: // 8XY0: Sets VX to the value of VY
-            // TODO
+            chip8->V[X] = chip8->V[Y];
             break;
         case 0x0001: // 8XY1: Sets VX to VX OR VY
-            // TODO
+            chip8->V[X] = (chip8->V[X] | chip8->V[Y]);
             break;
         case 0x0002: // 8XY2: Sets VX to VX AND VY
-            // TODO
+            chip8->V[X] = (chip8->V[X] & chip8->V[Y]);
             break;
         case 0x0003: // 8XY3: Sets VX to VX XOR VY
-            // TODO
+            chip8->V[X] = (chip8->V[X] ^ chip8->V[Y]);
             break;
         case 0x0004: // 8XY4: Adds VY to VX. VF is set to 1 when there's a carry, and to 0 when there isn't
-            // TODO
+            chip8->V[F] = chip8->V[X] > 255 - chip8->V[Y] ? 1 : 0;
+            chip8->V[X] += chip8->V[Y];
+            chip8->V[X] &= 0xFF; // wrap to fit into 8 bits
             break;
         case 0x0005: // 8XY5: VY is subtracted from VX. VF is set to 0 when there's a borrow, and 1 when there isn't
-            // TODO
+            chip8->V[F] = chip8->V[X] < chip8->V[Y] ? 0 : 1;
+            chip8->V[X] -= chip8->V[Y];
             break;
         case 0x0006: // 8XY6: Shifts VX right by one. VF is set to the value of the least significant bit of VX before the shift
-            // TODO
+            chip8->V[F] = chip8->V[X] & 0x1;
+            chip8->V[X] >>= 1;
             break;
         case 0x0007: // 8XY7: Sets VX to VY minus VX. VF is set to 0 when there's a borrow, and 1 when there isn't
-            // TODO
+            chip8->V[F] = chip8->V[X] > chip8->V[Y] ? 0 : 1;
+            chip8->V[X] = chip8->V[Y] - chip8->V[X];
             break;
         case 0x000E: // 8XYE: Shifts VX left by one. VF is set to the value of the most significant bit of VX before the shift
-            // TODO
+            chip8->V[F] = (chip8->V[X] & 0x80) >> 7;
+            chip8->V[X] <<= 1;
             break;
         }
         break;
     case 0x9000: // 9XY0: Skips the next instruction if VX doesn't equal VY
-        if (chip8->V[X] != chip8->V[Y])
-        {
-            chip8->pc += 4;
-        }
-        else
-        {
-            chip8->pc += 2;
-        }
+        chip8->pc += (chip8->V[X] != chip8->V[Y]) ? 4 : 2;
         break;
     case 0xA000: // ANNN: Sets I to the address NNN
         chip8->I = NNN;
