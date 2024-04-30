@@ -2,14 +2,16 @@
 #define SDLUTILS_H
 
 #include <SDL2/SDL.h>
+#include "chip8.h"
 
-typedef struct {
-    SDL_Window* window;
-    SDL_Renderer* renderer;
+typedef struct
+{
+    SDL_Window *window;
+    SDL_Renderer *renderer;
 } SDLComponents;
 
-void initSDL(SDLComponents* components);
-void redrawDisplay(SDLComponents* components, struct chip8* chip8);
-void destroySDL(SDLComponents* components);
+int initSDL(SDLComponents *components);
+void redrawDisplay(SDLComponents *components, struct chip8 *chip8);
+void destroySDL(SDLComponents *components);
 
 #endif
