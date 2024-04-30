@@ -154,6 +154,7 @@ void cycle(struct chip8 *chip8)
             chip8->V[X] <<= 1;
             break;
         }
+        chip8->pc += 2;
         break;
     case 0x9000: // 9XY0: Skips the next instruction if VX doesn't equal VY
         chip8->pc += (chip8->V[X] != chip8->V[Y]) ? 4 : 2;
@@ -163,17 +164,17 @@ void cycle(struct chip8 *chip8)
         chip8->pc += 2;
         break;
     case 0xB000: // BNNN: Jumps to the address NNN plus V0
-        // TODO
+        chip8->pc = NNN + chip8->V[0];
         break;
     case 0xC000: // CXNN: Sets VX to the result of a bitwise AND operation on a random number and NN
-        // TODO
+                 // just need to make sure that the random number fits in 8-bits
+        chip8->V[X] = (rand() % 256) & NN;
         break;
     case 0xD000: // DXYN: Draws a sprite at coordinate (VX, VY) that has a width of 8 pixels and a height of N pixels
         unsigned short x = chip8->V[X];
         unsigned short y = chip8->V[Y];
         unsigned short height = N;
         unsigned short pixel;
-
         chip8->V[0xF] = 0;
         for (int yline = 0; yline < height; yline++)
         {
@@ -190,10 +191,8 @@ void cycle(struct chip8 *chip8)
                 }
             }
         }
-
         chip8->drawFlag = 1;
         chip8->pc += 2;
-
         break;
     case 0xE000:
         switch (chip8->opcode & 0x00FF)
