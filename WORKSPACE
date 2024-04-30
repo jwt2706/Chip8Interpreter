@@ -8,8 +8,9 @@ cc_library(
     hdrs = glob([
         "include/**/*.h",
         "src/**/*.h",
-        ]),
+    ]),
     srcs = glob(["src/**/*.c"]),
+    includes = ["include"],
     visibility = ["//visibility:public"],
 )
 """,

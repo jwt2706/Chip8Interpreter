@@ -22,50 +22,50 @@ unsigned char fontset[80] = {
 
 void initChip8(struct chip8* chip8) {
     // init/reset everything
-    chip8->pc = 0x200;
-    chip8->opcode = 0;
-    chip8->I = 0;
-    chip8->sp = 0;
-    chip8->delayTimer = 0;
-    chip8->soundTimer = 0;
+    chip8.pc = 0x200;
+    chip8.opcode = 0;
+    chip8.I = 0;
+    chip8.sp = 0;
+    chip8.delayTimer = 0;
+    chip8.soundTimer = 0;
 
     // stack and registers
     for (int i = 0; i < 16; i++) {
-        chip8->stack[i] = 0;
-        chip8->V[i] = 0;
+        chip8.stack[i] = 0;
+        chip8.V[i] = 0;
     }
 
     // display
     clearDisplay(chip8);
 
     // memory
-    for (int i = 0; i < 4096; i++) chip8->memory[i] = 0;
+    for (int i = 0; i < 4096; i++) chip8.memory[i] = 0;
 
     // load the fontset
-    for (int i = 0; i < 80; i++) chip8->memory[i] = fontset[i];
+    for (int i = 0; i < 80; i++) chip8.memory[i] = fontset[i];
 }
 
 void clearDisplay(struct chip8* chip8) {
-    for (int i = 0; i < 64 * 32; i++) chip8->gfx[i] = 0;
+    for (int i = 0; i < 64 * 32; i++) chip8.gfx[i] = 0;
 }
 
 void cycle(struct chip8* chip8) {
     // get the opcode
     // since the opcode is 2 bytes long (8-bits * 2 = 16-bits), we need to merge the two bytes into a single 16-bit value
-    chip8->opcode = chip8->memory[chip8->pc] << 8 | chip8->memory[chip8->pc + 1];
+    chip8.opcode = chip8.memory[chip8.pc] << 8 | chip8.memory[chip8.pc + 1];
 
     // basically just fetching the hex value at wherever the "F" is in the hex code
     // this'll make the case switch a little cleaner
-    unsigned short X = (chip8->opcode & 0x0F00) >> 8;   // second hex
-    unsigned short Y = (chip8->opcode & 0x00F0) >> 4;   // third hex
-    unsigned short N = chip8->opcode & 0x000F;          // fourth hex
-    unsigned short NN = chip8->opcode & 0x00FF;         // third and fourth hex
-    unsigned short NNN = chip8->opcode & 0x0FFF;        // second, third, and fourth hex
+    unsigned short X = (chip8.opcode & 0x0F00) >> 8;   // second hex
+    unsigned short Y = (chip8.opcode & 0x00F0) >> 4;   // third hex
+    unsigned short N = chip8.opcode & 0x000F;          // fourth hex
+    unsigned short NN = chip8.opcode & 0x00FF;         // third and fourth hex
+    unsigned short NNN = chip8.opcode & 0x0FFF;        // second, third, and fourth hex
 
     // decode and execute the opcode
-    switch (chip8->opcode & 0xF000) { // compare the first hex, since that's defining the type of instruction
+    switch (chip8.opcode & 0xF000) { // compare the first hex, since that's defining the type of instruction
         case 0x0000:
-            switch (chip8->opcode & 0x000F) {
+            switch (chip8.opcode & 0x000F) {
                 case 0x0000: // 00E0: Clear the display
                     clearDisplay(chip8);
                     break;
@@ -75,7 +75,7 @@ void cycle(struct chip8* chip8) {
             }
             break;
         case 0x1000: // 1NNN: Jumps to address NNN
-            chip8->pc = NNN;
+            chip8.pc = NNN;
             break;
         case 0x2000: // 2NNN: Calls subroutine at NNN
             // TODO
@@ -90,15 +90,15 @@ void cycle(struct chip8* chip8) {
             // TODO
             break;
         case 0x6000: // 6XNN: Sets VX to NN
-            chip8->V[X] = NN;
-            chip8->pc += 2;
+            chip8.V[X] = NN;
+            chip8.pc += 2;
             break;
         case 0x7000: // 7XNN: Adds NN to VX
-            chip8->V[X] += NN;
-            chip8->pc += 2;
+            chip8.V[X] += NN;
+            chip8.pc += 2;
             break;
         case 0x8000:
-            switch (chip8->opcode & 0x000F) {
+            switch (chip8.opcode & 0x000F) {
                 case 0x0000: // 8XY0: Sets VX to the value of VY
                     // TODO
                     break;
@@ -132,8 +132,8 @@ void cycle(struct chip8* chip8) {
             // TODO
             break;
         case 0xA000: // ANNN: Sets I to the address NNN
-            chip8->I = NNN;
-            chip8->pc += 2;
+            chip8.I = NNN;
+            chip8.pc += 2;
             break;
         case 0xB000: // BNNN: Jumps to the address NNN plus V0
             // TODO
@@ -142,30 +142,30 @@ void cycle(struct chip8* chip8) {
             // TODO
             break;
         case 0xD000: // DXYN: Draws a sprite at coordinate (VX, VY) that has a width of 8 pixels and a height of N pixels
-            unsigned short x = chip8->V[X];
-            unsigned short y = chip8->V[Y];
+            unsigned short x = chip8.V[X];
+            unsigned short y = chip8.V[Y];
             unsigned short height = N;
             unsigned short pixel;
-\
-            chip8->V[0xF] = 0;
+
+            chip8.V[0xF] = 0;
             for (int yline = 0; yline < height; yline++) {
-                pixel = chip8->memory[chip8->I + yline];
+                pixel = chip8.memory[chip8.I + yline];
                 for (int xline = 0; xline < 8; xline++) {
                     if ((pixel & (0x80 >> xline)) != 0) {
-                        if (chip8->gfx[(x + xline + ((y + yline) * 64))] == 1) {
-                            chip8->V[0xF] = 1;
+                        if (chip8.gfx[(x + xline + ((y + yline) * 64))] == 1) {
+                            chip8.V[0xF] = 1;
                         }
-                        chip8->gfx[x + xline + ((y + yline) * 64)] ^= 1;
+                        chip8.gfx[x + xline + ((y + yline) * 64)] ^= 1;
                     }
                 }
             }
 
-            chip8->drawFlag = 1;
-            chip8->pc += 2;
+            chip8.drawFlag = 1;
+            chip8.pc += 2;
 
             break;
         case 0xE000:
-            switch (chip8->opcode & 0x00FF) {
+            switch (chip8.opcode & 0x00FF) {
                 case 0x009E: // EX9E: Skips the next instruction if the key stored in VX is pressed
                     // TODO
                     break;
@@ -175,7 +175,7 @@ void cycle(struct chip8* chip8) {
             }
             break;
         case 0xF000:
-            switch (chip8->opcode & 0x00FF) {
+            switch (chip8.opcode & 0x00FF) {
                 case 0x0007: // FX07: Sets VX to the value of the delay timer
                     // TODO
                     break;
@@ -206,19 +206,19 @@ void cycle(struct chip8* chip8) {
             }
             break;
         default:
-            printf("Unknown opcode: 0x%X\n", chip8->opcode);
+            printf("Unknown opcode: 0x%X\n", chip8.opcode);
     }
 
     // update timers
-    if (chip8->delayTimer > 0) {
-        chip8->delayTimer--;
+    if (chip8.delayTimer > 0) {
+        chip8.delayTimer--;
     }
 
-    if (chip8->soundTimer > 0) {
-        if (chip8->soundTimer == 1) {
+    if (chip8.soundTimer > 0) {
+        if (chip8.soundTimer == 1) {
             // play a sound
         }
-        chip8->soundTimer--;
+        chip8.soundTimer--;
     }
 }
 
