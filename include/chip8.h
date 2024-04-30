@@ -2,7 +2,7 @@
 #define CHIP8_H
 
 // CHIP-8 system variables
-// (NOTE: chars are 8-bits, shorts are 16-bits)
+// NOTE: chars are 8-bits, shorts are 16-bits
 struct chip8
 {
     unsigned short opcode;      // current operation code

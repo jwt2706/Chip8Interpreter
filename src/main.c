@@ -20,7 +20,7 @@ int main()
     initKeymap();
 
     // load ROM
-    loadRom(&chip8, "roms/IBMLogo.ch8");
+    loadRom(&chip8, "roms/Pong.ch8");
 
     // main loop
     while (1)
@@ -46,7 +46,7 @@ int main()
             chip8.drawFlag = 0;
         }
 
-        SDL_Delay(100);
+        SDL_Delay(10);
     }
     destroySDL(&components);
     return 0;
