@@ -99,13 +99,34 @@ void cycle(struct chip8 *chip8)
         chip8->pc = NNN;
         break;
     case 0x3000: // 3XNN: Skips the next instruction if VX equals NN
-        // TODO
+        if (chip8->V[X] == NN)
+        {
+            chip8->pc += 4;
+        }
+        else
+        {
+            chip8->pc += 2;
+        }
         break;
     case 0x4000: // 4XNN: Skips the next instruction if VX doesn't equal NN
-        // TODO
+        if (chip8->V[X] != NN)
+        {
+            chip8->pc += 4;
+        }
+        else
+        {
+            chip8->pc += 2;
+        }
         break;
     case 0x5000: // 5XY0: Skips the next instruction if VX equals VY
-        // TODO
+        if (chip8->V[X] == chip8->V[Y])
+        {
+            chip8->pc += 4;
+        }
+        else
+        {
+            chip8->pc += 2;
+        }
         break;
     case 0x6000: // 6XNN: Sets VX to NN
         chip8->V[X] = NN;
@@ -148,7 +169,14 @@ void cycle(struct chip8 *chip8)
         }
         break;
     case 0x9000: // 9XY0: Skips the next instruction if VX doesn't equal VY
-        // TODO
+        if (chip8->V[X] != chip8->V[Y])
+        {
+            chip8->pc += 4;
+        }
+        else
+        {
+            chip8->pc += 2;
+        }
         break;
     case 0xA000: // ANNN: Sets I to the address NNN
         chip8->I = NNN;
