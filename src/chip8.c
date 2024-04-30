@@ -198,10 +198,10 @@ void cycle(struct chip8 *chip8)
         switch (chip8->opcode & 0x00FF)
         {
         case 0x009E: // EX9E: Skips the next instruction if the key stored in VX is pressed
-            // TODO
+            chip8->pc = (chip8->keys[chip8->V[X]]) ? 4 : 2;
             break;
         case 0x00A1: // EXA1: Skips the next instruction if the key stored in VX isn't pressed
-            // TODO
+            chip8->pc = (!chip8->keys[chip8->V[X]]) ? 4 : 2;
             break;
         }
         break;
@@ -209,31 +209,52 @@ void cycle(struct chip8 *chip8)
         switch (chip8->opcode & 0x00FF)
         {
         case 0x0007: // FX07: Sets VX to the value of the delay timer
-            // TODO
+            chip8->V[X] = chip8->delayTimer;
             break;
         case 0x000A: // FX0A: A key press is awaited, and then stored in VX
-            // TODO
-            break;
+            for (int i = 0; i < 16; i++)
+            {
+                if (chip8->keys[i] != 0)
+                {
+                    chip8->V[X] = i;
+                    chip8->pc += 2;
+                    return;
+                }
+            }
+            return;  // if no key is pressed, return without incrementing the program counter
         case 0x0015: // FX15: Sets the delay timer to VX
-            // TODO
+            chip8->delayTimer = chip8->V[X];
             break;
         case 0x0018: // FX18: Sets the sound timer to VX
-            // TODO
+            chip8->soundTimer = chip8->V[X];
             break;
         case 0x001E: // FX1E: Adds VX to I
-            // TODO
+            chip8->I += chip8->V[X];
             break;
         case 0x0029: // FX29: Sets I to the location of the sprite for the character in VX
-            // TODO
+                     // Characters 0-F (in hexadecimal) are represented by a 4x5 font
+                     // so to move the I to the correct location, we need to multiply the value of VX by 5
+            chip8->I = chip8->V[X] * 0x5;
             break;
-        case 0x0033: // FX33: Stores the binary-coded decimal representation of VX at the addresses I, I plus 1, and I plus 2
-            // TODO
+        case 0x0033:                                                // FX33: Stores the binary-coded decimal representation of VX at the addresses I, I plus 1, and I plus 2
+            chip8->memory[chip8->I] = chip8->V[X] / 100;            // fetches the hundreds digit:  X00
+            chip8->memory[chip8->I + 1] = (chip8->V[X] / 10) % 10;  // fetches the tens digit:      0X0
+            chip8->memory[chip8->I + 2] = (chip8->V[X] % 100) % 10; // fetches the ones digit:      00X
+            chip8->pc += 2;
             break;
         case 0x0055: // FX55: Stores V0 to VX (including VX) in memory starting at address I
-            // TODO
+            for (int i = 0; i <= X; i++)
+            {
+                chip8->memory[chip8->I + i] = chip8->V[i];
+            }
+            chip8->pc += 2;
             break;
         case 0x0065: // FX65: Fills V0 to VX (including VX) with values from memory starting at address I
-            // TODO
+            for (int i = 0; i <= X; i++)
+            {
+                chip8->V[i] = chip8->memory[chip8->I + i];
+            }
+            chip8->pc += 2;
             break;
         }
         break;

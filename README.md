@@ -14,8 +14,6 @@ This [general high-level guide](https://tobiasvl.github.io/blog/write-a-chip-8-e
 
 ## TODO
 
-- complete the decoding support
-- handle user input
 - add sound
 - add ability to choose rom to load
 - finetune emulation speed, etc

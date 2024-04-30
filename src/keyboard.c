@@ -5,6 +5,17 @@
 // lookup table for key mapping
 static int keymap[SDL_NUM_SCANCODES];
 
+/*
+The keyboard layout is based on the 4x4 hex keyboard from the COSMAC VIP computer.
+It is implemented in regular QWERTY layout as follows:
+
+1 2 3 4
+Q W E R
+A S D F
+Z X C V
+
+*/
+
 void initKeymap()
 {
     keymap[SDL_SCANCODE_1] = 1;
