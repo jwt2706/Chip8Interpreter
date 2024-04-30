@@ -19,3 +19,4 @@ This [general high-level guide](https://tobiasvl.github.io/blog/write-a-chip-8-e
 - add sound
 - add ability to choose rom to load
 - finetune emulation speed, etc
+- fix bazel
