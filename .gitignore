@@ -2,3 +2,4 @@ bazel-bin
 bazel-Chip8Interpreter
 bazel-out
 bazel-testlogs
+Chip8Interpreter

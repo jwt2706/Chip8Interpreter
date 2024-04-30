@@ -3,6 +3,6 @@
 
 #include "chip8.h"
 
-void loadRom(struct chip8* chip8, const char* filename);
+void loadRom(struct chip8 *chip8, const char *filename);
 
 #endif
