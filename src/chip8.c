@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include "../include/chip8.h"
 
 unsigned char fontset[80] = {
@@ -35,7 +36,7 @@ void initChip8(struct chip8* chip8) {
     }
 
     // display
-    clearDisplay(&chip8);
+    clearDisplay(chip8);
 
     // memory
     for (int i = 0; i < 4096; i++) chip8->memory[i] = 0;
@@ -51,7 +52,7 @@ void clearDisplay(struct chip8* chip8) {
 void cycle(struct chip8* chip8) {
     // get the opcode
     // since the opcode is 2 bytes long (8-bits * 2 = 16-bits), we need to merge the two bytes into a single 16-bit value
-    chip8.opcode = chip8.memory[chip8.pc] << 8 | chip8.memory[chip8.pc + 1];
+    chip8->opcode = chip8->memory[chip8->pc] << 8 | chip8->memory[chip8->pc + 1];
 
     // basically just fetching the hex value at wherever the "F" is in the hex code
     // this'll make the case switch a little cleaner
@@ -66,7 +67,7 @@ void cycle(struct chip8* chip8) {
         case 0x0000:
             switch (chip8->opcode & 0x000F) {
                 case 0x0000: // 00E0: Clear the display
-                    clearDisplay(&chip8);
+                    clearDisplay(chip8);
                     break;
                 case 0x000E: // 00EE: Returns from a subroutine
                     // TODO
@@ -209,15 +210,15 @@ void cycle(struct chip8* chip8) {
     }
 
     // update timers
-    if (chip8.delayTimer > 0) {
-        chip8.delayTimer--;
+    if (chip8->delayTimer > 0) {
+        chip8->delayTimer--;
     }
 
-    if (chip8.soundTimer > 0) {
-        if (chip8.soundTimer == 1) {
+    if (chip8->soundTimer > 0) {
+        if (chip8->soundTimer == 1) {
             // play a sound
         }
-        chip8.soundTimer--;
+        chip8->soundTimer--;
     }
 }
 

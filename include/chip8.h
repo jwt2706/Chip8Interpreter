@@ -20,6 +20,6 @@ struct chip8 {
 
 void initChip8(struct chip8* chip8);
 void cycle(struct chip8* chip8);
-clearDisplay(struct chip8* chip8);
+void clearDisplay(struct chip8* chip8);
 
 #endif
