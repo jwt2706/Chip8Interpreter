@@ -16,7 +16,9 @@ int main()
     initChip8(&chip8);
 
     // load ROM
-    loadRom(&chip8, "roms/IBMLogo.c8");
+    loadRom(&chip8, "roms/IBMLogo.ch8");
+
+    chip8.drawFlag = 1;
 
     // main loop
     while (1)

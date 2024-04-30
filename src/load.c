@@ -7,7 +7,7 @@ int loadRom(struct chip8 *chip8, const char *filename)
     FILE *rom = fopen(filename, "rb");
     if (rom == NULL)
     {
-        printf("Failed to open the ROM file!\n");
+        printf("Failed to open file: %s\n", filename);
         return 1;
     }
 
@@ -58,6 +58,8 @@ int loadRom(struct chip8 *chip8, const char *filename)
 
     fclose(rom);
     free(buffer);
+
+    printf("ROM loaded successfully!\n");
 
     return 0;
 }
