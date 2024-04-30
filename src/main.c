@@ -18,8 +18,6 @@ int main()
     // load ROM
     loadRom(&chip8, "roms/IBMLogo.ch8");
 
-    chip8.drawFlag = 1;
-
     // main loop
     while (1)
     {
@@ -39,6 +37,8 @@ int main()
             redrawDisplay(&components, &chip8);
             chip8.drawFlag = 0;
         }
+
+        SDL_Delay(100);
     }
     destroySDL(&components);
     return 0;

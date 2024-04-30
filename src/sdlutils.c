@@ -36,7 +36,6 @@ int initSDL(SDLComponents *components)
 
 void redrawDisplay(SDLComponents *components, struct chip8 *chip8)
 {
-    printf("Redrawing display...\n");
     SDL_SetRenderDrawColor(components->renderer, 0, 0, 0, 255); // black
     SDL_RenderClear(components->renderer);
 
