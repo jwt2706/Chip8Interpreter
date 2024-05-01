@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "../include/chip8.h"
+#include "../include/sdlutils.h"
 
 #define F 0xF // the 16th V register is for the carry flag
 
@@ -169,6 +170,7 @@ void cycle(struct chip8 *chip8)
     case 0xC000: // CXNN: Sets VX to the result of a bitwise AND operation on a random number and NN
                  // just need to make sure that the random number fits in 8-bits
         chip8->V[X] = (rand() % 256) & NN;
+        chip8->pc += 2;
         break;
     case 0xD000: // DXYN: Draws a sprite at coordinate (VX, VY) that has a width of 8 pixels and a height of N pixels
         unsigned short x = chip8->V[X];
@@ -210,6 +212,7 @@ void cycle(struct chip8 *chip8)
         {
         case 0x0007: // FX07: Sets VX to the value of the delay timer
             chip8->V[X] = chip8->delayTimer;
+            chip8->pc += 2;
             break;
         case 0x000A: // FX0A: A key press is awaited, and then stored in VX
             for (int i = 0; i < 16; i++)
@@ -224,17 +227,21 @@ void cycle(struct chip8 *chip8)
             return;  // if no key is pressed, return without incrementing the program counter
         case 0x0015: // FX15: Sets the delay timer to VX
             chip8->delayTimer = chip8->V[X];
+            chip8->pc += 2;
             break;
         case 0x0018: // FX18: Sets the sound timer to VX
             chip8->soundTimer = chip8->V[X];
+            chip8->pc += 2;
             break;
         case 0x001E: // FX1E: Adds VX to I
             chip8->I += chip8->V[X];
+            chip8->pc += 2;
             break;
         case 0x0029: // FX29: Sets I to the location of the sprite for the character in VX
                      // Characters 0-F (in hexadecimal) are represented by a 4x5 font
                      // so to move the I to the correct location, we need to multiply the value of VX by 5
             chip8->I = chip8->V[X] * 0x5;
+            chip8->pc += 2;
             break;
         case 0x0033:                                                // FX33: Stores the binary-coded decimal representation of VX at the addresses I, I plus 1, and I plus 2
             chip8->memory[chip8->I] = chip8->V[X] / 100;            // fetches the hundreds digit:  X00
@@ -272,7 +279,7 @@ void cycle(struct chip8 *chip8)
     {
         if (chip8->soundTimer == 1)
         {
-            // play a sound
+            playSound();
         }
         chip8->soundTimer--;
     }
