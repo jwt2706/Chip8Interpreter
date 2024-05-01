@@ -18,7 +18,5 @@ This is a CHIP-8 interpreter, built with SDL2. It mimics the CHIP-8 system and i
 
 ## TODO
 
-- add sound
-- add ability to choose rom to load
-- finetune emulation speed, etc
+- fix crashes
 - fix bazel

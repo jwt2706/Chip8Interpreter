@@ -4,7 +4,7 @@
 #include "../include/chip8.h"
 #include "../include/load.h"
 
-int main()
+int main(int argc, char *argv[])
 {
     // init sdl2
     SDLComponents components;
@@ -20,7 +20,12 @@ int main()
     initKeymap();
 
     // load ROM
-    loadRom(&chip8, "roms/Pong.ch8");
+    char *romName = "IBMLogo"; // default
+    if (argc >= 2)
+        romName = argv[1];
+    char rom[265];
+    snprintf(rom, sizeof(rom), "roms/%s.ch8", romName);
+    loadRom(&chip8, rom);
 
     // main loop
     while (1)
