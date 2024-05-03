@@ -1,0 +1,29 @@
+name: Build
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install dependencies
+        run: |
+          if [ "$RUNNER_OS" == "Windows" ]; then
+            choco install sdl2
+          elif [ "$RUNNER_OS" == "Linux" ]; then
+            sudo apt-get update
+            sudo apt-get install -y libsdl2-dev
+          elif [ "$RUNNER_OS" == "macOS" ]; then
+            brew install sdl2
+          fi
+      - name: Build
+        run: gcc -o Chip8Interpreter src/*.c -lSDL2
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: Chip8Interpreter-${{ matrix.os }}
+          path: Chip8Interpreter
