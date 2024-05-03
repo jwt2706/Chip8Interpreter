@@ -20,11 +20,11 @@ int main(int argc, char *argv[])
     initKeymap();
 
     // load ROM
-    char *romName = "IBMLogo"; // default
+    char *romName = "IBMLOGO"; // default
     if (argc >= 2)
         romName = argv[1];
     char rom[265];
-    snprintf(rom, sizeof(rom), "roms/%s.ch8", romName);
+    snprintf(rom, sizeof(rom), "roms/%s", romName);
     loadRom(&chip8, rom);
 
     // main loop
