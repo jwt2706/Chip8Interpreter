@@ -14,7 +14,7 @@ This is a CHIP-8 interpreter, built with SDL2. It mimics the CHIP-8 system and i
 
 [This general high-level guide](https://tobiasvl.github.io/blog/write-a-chip-8-emulator) is what got me into making this. It was a lot of fun! I suggest you try it too.
 
-[Here](https://github.com/loktar00/chip8/tree/master/roms) is the source of the all the roms. I just renamed them to making testing easier. I do not own or claim ownership of these files. They are only present in this repository for educational purposes.
+I do not own or claim ownership of the files in the `roms` folder. They are only present in this repository for educational purposes.
 
 ## TODO
 
