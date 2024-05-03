@@ -65,6 +65,8 @@ void cycle(struct chip8 *chip8)
     // since the opcode is 2 bytes long (8-bits * 2 = 16-bits), we need to merge the two bytes into a single 16-bit value
     chip8->opcode = chip8->memory[chip8->pc] << 8 | chip8->memory[chip8->pc + 1];
 
+    printf("0x%X\n", chip8->opcode);
+
     // basically just fetching the hex value at wherever the "F" is in the hex code
     // this'll make the case switch a little cleaner
     unsigned short X = (chip8->opcode & 0x0F00) >> 8; // second hex

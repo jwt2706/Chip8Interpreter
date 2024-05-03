@@ -27,6 +27,11 @@ int main(int argc, char *argv[])
     snprintf(rom, sizeof(rom), "roms/%s", romName);
     loadRom(&chip8, rom);
 
+    // get delay
+    int delay = 2;
+    if (argc >= 3)
+        delay = atoi(argv[2]);
+
     // main loop
     while (1)
     {
@@ -51,7 +56,7 @@ int main(int argc, char *argv[])
             chip8.drawFlag = 0;
         }
 
-        SDL_Delay(2);
+        SDL_Delay(delay);
     }
     destroySDL(&components);
     return 0;
