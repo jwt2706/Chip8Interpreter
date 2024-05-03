@@ -39,7 +39,7 @@ int main(int argc, char *argv[])
             }
             else
             {
-                handleKey(&chip8, event.key.keysym.sym, event.type == SDL_KEYUP);
+                handleKey(&chip8, event.key.keysym.scancode, event.type == SDL_KEYDOWN);
             }
         }
         cycle(&chip8);
@@ -51,7 +51,7 @@ int main(int argc, char *argv[])
             chip8.drawFlag = 0;
         }
 
-        SDL_Delay(10);
+        SDL_Delay(2);
     }
     destroySDL(&components);
     return 0;
