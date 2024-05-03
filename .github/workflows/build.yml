@@ -23,7 +23,7 @@ jobs:
             sudo apt-get install -y libsdl2-dev
           fi
       - name: Build
-        run: gcc -o Chip8Interpreter src/*.c -lSDL2
+        run: gcc -o Chip8Interpreter src/*.c -lSDL2 -lm
       - name: Upload artifact
         uses: actions/upload-artifact@v2
         with:
