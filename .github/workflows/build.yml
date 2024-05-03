@@ -27,7 +27,7 @@ jobs:
       - name: Build
         run: |
           if [ "$RUNNER_OS" == "macOS" ]; then
-            gcc -o Chip8Interpreter src/*.c -I/usr/local/include/SDL2 -lSDL2
+            gcc -o Chip8Interpreter src/*.c -I/usr/local/include -lSDL2
           else
             gcc -o Chip8Interpreter src/*.c -lSDL2
           fi
