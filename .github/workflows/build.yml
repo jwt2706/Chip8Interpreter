@@ -15,6 +15,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Install dependencies
+        shell: bash
         run: |
           if [ "$RUNNER_OS" == "Windows" ]; then
             choco install sdl2
