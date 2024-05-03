@@ -39,9 +39,8 @@ void initKeymap()
 void handleKey(struct chip8 *chip8, SDL_Scancode scancode, int keyState)
 {
     int chip8_key = keymap[scancode];
-    if (chip8_key >= 0 && chip8_key <= 0xF)
+    if (chip8_key <= 0xF)
     {
-        printf("Key event: scancode = %d, CHIP-8 key = %d, state = %d\n", scancode, chip8_key, keyState);
         chip8->keys[chip8_key] = keyState;
     }
 }
