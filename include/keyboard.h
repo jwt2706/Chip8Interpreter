@@ -5,6 +5,6 @@
 #include "../include/chip8.h"
 
 void initKeymap();
-void handleKey(struct chip8 *chip8, SDL_KeyCode keycode, int keyState);
+void handleKey(struct chip8 *chip8, SDL_Scancode scancode, int keyState);
 
 #endif
