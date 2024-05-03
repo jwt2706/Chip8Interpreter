@@ -2,7 +2,7 @@
 
 [![GCC build](https://github.com/jwt2706/Chip8Interpreter/actions/workflows/gcc.yml/badge.svg?branch=main)](https://github.com/jwt2706/Chip8Interpreter/actions/workflows/gcc.yml)
 
-This is a CHIP-8 interpreter, built with SDL2. It mimics the CHIP-8 system and includes emulation for the COSMAC VIP hexadecimal keyboard layout. It's is still not complete, but works enough to load some ROMs and play a bit.
+This is a CHIP-8 interpreter, built with SDL2. It mimics the CHIP-8 system and includes emulation for the COSMAC VIP hexadecimal keyboard layout. It's still not complete, but works enough to load some ROMs and play a bit.
 
 [What is CHIP-8?](https://wikipedia.org/wiki/CHIP-8)
 
