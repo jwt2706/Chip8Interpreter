@@ -22,7 +22,12 @@ jobs:
             brew install sdl2
           fi
       - name: Build
-        run: gcc -o Chip8Interpreter src/*.c -lSDL2
+        run: |
+          if [ "$RUNNER_OS" == "macOS" ]; then
+            gcc -o Chip8Interpreter src/*.c -I/usr/local/include/SDL2 -lSDL2
+          else
+            gcc -o Chip8Interpreter src/*.c -lSDL2
+          fi
       - name: Upload artifact
         uses: actions/upload-artifact@v2
         with:
