@@ -11,7 +11,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
+        os: [ubuntu-latest, windows-latest]
     steps:
       - uses: actions/checkout@v2
       - name: Install dependencies
@@ -21,16 +21,9 @@ jobs:
           elif [ "$RUNNER_OS" == "Linux" ]; then
             sudo apt-get update
             sudo apt-get install -y libsdl2-dev
-          elif [ "$RUNNER_OS" == "macOS" ]; then
-            brew install sdl2
           fi
       - name: Build
-        run: |
-          if [ "$RUNNER_OS" == "macOS" ]; then
-            gcc -o Chip8Interpreter src/*.c -I/usr/local/include -lSDL2
-          else
-            gcc -o Chip8Interpreter src/*.c -lSDL2
-          fi
+        run: gcc -o Chip8Interpreter src/*.c -lSDL2
       - name: Upload artifact
         uses: actions/upload-artifact@v2
         with:
