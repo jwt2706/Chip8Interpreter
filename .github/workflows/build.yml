@@ -1,9 +1,11 @@
 name: Build
+
 on:
   push:
     branches: [main]
   pull_request:
     branches: [main]
+
 jobs:
   build:
     runs-on: ${{ matrix.os }}
@@ -28,11 +30,13 @@ jobs:
         run: |
           if [ "$RUNNER_OS" == "Windows" ]; then
             gcc -o Chip8Interpreter src/*.c -I/mingw64/include/SDL2 -lSDL2 -lm
+          elif [ "$RUNNER_OS" == "macOS" ]; then
+            gcc -o Chip8Interpreter src/*.c -I/usr/local/include/SDL2 -lSDL2 -lm
           else
             gcc -o Chip8Interpreter src/*.c -lSDL2 -lm
           fi
       - name: Upload artifact
         uses: actions/upload-artifact@v2
         with:
-          name: Chip8Interpreter-${{ runner.os }}
+          name: Chip8Interpreter-${{ matrix.os }}
           path: ./Chip8Interpreter
