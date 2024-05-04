@@ -26,6 +26,7 @@ jobs:
             sudo apt-get install -y libsdl2-dev
           fi
       - name: Build
+        shell: bash
         run: |
           if [ "$RUNNER_OS" == "Windows" ]; then
             gcc -o Chip8Interpreter src/*.c -Ivcpkg\installed\x64-windows\include -lSDL2 -lm
