@@ -18,7 +18,7 @@ This project is dependant on the **SDL2 library**. Please make sure you lookup h
 
 ### Installation
 
-1. Download the latest version from the [releases tab](https://github.com/jwt2706/Chip8Interpreter/releases/latest) and place it in a directory of your choice.
+1. Download the latest version from the [releases tab](https://github.com/jwt2706/Chip8Interpreter/releases/latest) and place it in a directory of your choice. (As of now, windows, mac and debian-based linux distros have builds. If you're running something else, you may have to compile from source.)
 
 2. Create a `roms` directory in the same directory as the executable. This is where you'll place the CHIP-8 ROM files.
 
