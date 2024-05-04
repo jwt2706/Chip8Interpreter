@@ -26,7 +26,12 @@ jobs:
             sudo apt-get install -y libsdl2-dev
           fi
       - name: Build
-        run: gcc -o Chip8Interpreter src/*.c -lSDL2 -lm
+        run: |
+          if [ "$RUNNER_OS" == "Windows" ]; then
+            gcc -o Chip8Interpreter src/*.c -Ivcpkg\installed\x64-windows\include -lSDL2 -lm
+          else
+            gcc -o Chip8Interpreter src/*.c -lSDL2 -lm
+          fi
       - name: Upload artifact
         uses: actions/upload-artifact@v2
         with:
