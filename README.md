@@ -46,7 +46,7 @@ About the controls for the actual games, it's always different... just trial and
 
 ## Compile from source
 
-I'm not going to write instructions on how to compile from source because I figure if you're trying to do this, you alreay know what you are doing. :)
+I'm not going to write instructions on how to compile from source because I figure if you're trying to do this, you already know what you are doing. :)
 
 ## Acknowledgements
 
