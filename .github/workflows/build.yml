@@ -19,9 +19,9 @@ jobs:
         run: |
           if [[ "${{ runner.os }}" == "Windows" ]]; then
             choco install mingw
-            Invoke-WebRequest -Uri https://www.libsdl.org/release/SDL2-devel-2.0.14-VC.zip -OutFile SDL2.zip
-            Expand-Archive -Path SDL2.zip -DestinationPath .
-            Move-Item -Path SDL2-2.0.14 -Destination C:\SDL2
+            curl -L -o SDL2.zip https://www.libsdl.org/release/SDL2-devel-2.0.14-VC.zip
+            7z x SDL2.zip -o.
+            mv SDL2-2.0.14 C:/SDL2
           elif [[ "${{ runner.os }}" == "Linux" ]]; then
             sudo apt-get update
             sudo apt-get install -y libsdl2-dev
@@ -29,8 +29,6 @@ jobs:
             brew install sdl2
           fi
         shell: bash
-        env:
-          POWERSHELL_TELEMETRY_OPTOUT: 1
       - name: Build
         shell: bash
         run: |
