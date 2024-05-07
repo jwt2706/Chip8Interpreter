@@ -22,6 +22,10 @@ jobs:
         run: |
           wget https://www.libsdl.org/release/SDL2-devel-2.0.14-VC.zip
           unzip SDL2-devel-2.0.14-VC.zip
+      - name: Move SDL2 headers into SDL2 directory
+        run: |
+          mkdir SDL2-2.0.14/include/SDL2
+          mv SDL2-2.0.14/include/*.h SDL2-2.0.14/include/SDL2
       - name: List contents of SDL2 lib dir
         run: ls -la SDL2-2.0.14/lib/x64
       - name: List contents of SDL2 include dir
