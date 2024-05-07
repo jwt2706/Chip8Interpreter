@@ -22,6 +22,8 @@ jobs:
         run: |
           wget https://www.libsdl.org/release/SDL2-devel-2.0.14-VC.zip
           unzip SDL2-devel-2.0.14-VC.zip
+      - name: List contents of SDL2 directory
+        run: ls -la SDL2-2.0.14
       - name: Build for Windows
         run: |
           x86_64-w64-mingw32-gcc -o Chip8Interpreter.exe src/*.c -I SDL2-2.0.14/include -L SDL2-2.0.14/lib/x86_64-w64-mingw32 -lmingw32 -lSDL2main -lSDL2 -lm
