@@ -19,6 +19,7 @@ jobs:
         shell: bash
         run: |
           if [ "$RUNNER_OS" == "Windows" ]; then
+            choco install mingw
             choco install sdl2
           elif [ "$RUNNER_OS" == "Linux" ]; then
             sudo apt-get update
@@ -30,7 +31,7 @@ jobs:
         shell: bash
         run: |
           if [ "$RUNNER_OS" == "Windows" ]; then
-            gcc -o Chip8Interpreter src/*.c -I/mingw64/include/SDL2 -lSDL2 -lm
+            gcc -o Chip8Interpreter src/*.c -I/mingw64/include/SDL2 -lmingw32 -lSDL2main -lSDL2 -lm
           elif [ "$RUNNER_OS" == "macOS" ]; then
             gcc -o Chip8Interpreter src/*.c -I/usr/local/include/SDL2 -lSDL2 -lm
           else
