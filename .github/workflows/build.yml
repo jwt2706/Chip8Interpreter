@@ -8,38 +8,42 @@ on:
 
 jobs:
   build:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - name: Install dependencies
         run: |
-          if [[ "${{ runner.os }}" == "Windows" ]]; then
-            choco install mingw
-            curl -L -o SDL2.zip https://www.libsdl.org/release/SDL2-devel-2.0.14-VC.zip
-            7z x SDL2.zip -oC:/
-          elif [[ "${{ runner.os }}" == "Linux" ]]; then
-            sudo apt-get update
-            sudo apt-get install -y libsdl2-dev
-          elif [[ "${{ runner.os }}" == "macOS" ]]; then
-            brew install sdl2
-          fi
-        shell: bash
-      - name: Build
-        shell: bash
+          sudo apt-get update
+          sudo apt-get install -y libsdl2-dev mingw-w64
+      - name: Build for Linux
         run: |
-          if [ "$RUNNER_OS" == "Windows" ]; then
-            gcc -o Chip8Interpreter src/*.c -IC:/SDL2-2.0.14/include -LC:/SDL2-2.0.14/lib/x86_64-w64-mingw32 -lmingw32 -lSDL2main -lSDL2 -lm
-          elif [ "$RUNNER_OS" == "macOS" ]; then
-            gcc -o Chip8Interpreter src/*.c -I/usr/local/Cellar/sdl2/2.0.14/include -L/usr/local/Cellar/sdl2/2.0.14/lib -lSDL2 -lm
-          else
-            gcc -o Chip8Interpreter src/*.c -lSDL2 -lm
-          fi
-      - name: Upload artifact
+          gcc -o Chip8Interpreter src/*.c -lSDL2 -lm
+      - name: Build for Windows
+        run: |
+          x86_64-w64-mingw32-gcc -o Chip8Interpreter.exe src/*.c -lmingw32 -lSDL2main -lSDL2 -lm
+      - name: Setup osxcross
+        run: |
+          sudo apt-get install -y clang cmake git lzma-dev libxml2-dev libssl-dev zlib1g-dev
+          git clone https://github.com/tpoechtrager/osxcross
+          cd osxcross
+          wget -P tarballs https://github.com/phracker/MacOSX-SDKs/releases/download/10.13/MacOSX10.11.sdk.tar.xz
+          UNATTENDED=yes OSX_VERSION_MIN=10.6 ./build.sh
+      - name: Build for macOS
+        run: |
+          PATH=$PATH:$(pwd)/osxcross/target/bin
+          o64-clang -o Chip8Interpreter src/*.c -lSDL2 -lm
+      - name: Upload artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: Chip8Interpreter-${{ matrix.os }}
+          name: Chip8Interpreter-Linux
+          path: ./Chip8Interpreter
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: Chip8Interpreter-Windows
+          path: ./Chip8Interpreter.exe
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: Chip8Interpreter-macOS
           path: ./Chip8Interpreter
