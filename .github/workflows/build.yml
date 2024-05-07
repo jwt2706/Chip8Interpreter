@@ -26,10 +26,6 @@ jobs:
         run: |
           mkdir SDL2-2.0.14/include/SDL2
           mv SDL2-2.0.14/include/*.h SDL2-2.0.14/include/SDL2
-      - name: List contents of SDL2 lib dir
-        run: ls -la SDL2-2.0.14/lib/x64
-      - name: List contents of SDL2 include dir
-        run: ls -la SDL2-2.0.14/include
       - name: Build for Windows
         run: |
           x86_64-w64-mingw32-gcc -o Chip8Interpreter.exe src/*.c -I SDL2-2.0.14/include -L SDL2-2.0.14/lib/x64 -lmingw32 -lSDL2main -lSDL2 -lm

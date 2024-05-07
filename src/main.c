@@ -24,7 +24,7 @@ int main(int argc, char *argv[])
     if (argc >= 2)
         romName = argv[1];
     char rom[265];
-    snprintf(rom, sizeof(rom), "roms/%s", romName);
+    printf(rom, sizeof(rom), "roms/%s", romName);
     loadRom(&chip8, rom);
 
     // get delay
