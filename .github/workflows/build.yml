@@ -20,8 +20,7 @@ jobs:
           if [[ "${{ runner.os }}" == "Windows" ]]; then
             choco install mingw
             curl -L -o SDL2.zip https://www.libsdl.org/release/SDL2-devel-2.0.14-VC.zip
-            7z x SDL2.zip -o.
-            mv SDL2-2.0.14 C:/SDL2
+            7z x SDL2.zip -oC:/
           elif [[ "${{ runner.os }}" == "Linux" ]]; then
             sudo apt-get update
             sudo apt-get install -y libsdl2-dev
@@ -33,9 +32,9 @@ jobs:
         shell: bash
         run: |
           if [ "$RUNNER_OS" == "Windows" ]; then
-            gcc -o Chip8Interpreter src/*.c -IC:/SDL2/SDL2-2.0.14/include -LC:/SDL2/SDL2-2.0.14/lib/x64 -lmingw32 -lSDL2main -lSDL2 -lm
+            gcc -o Chip8Interpreter src/*.c -IC:/SDL2-2.0.14/include -LC:/SDL2-2.0.14/lib/x86_64-w64-mingw32 -lmingw32 -lSDL2main -lSDL2 -lm
           elif [ "$RUNNER_OS" == "macOS" ]; then
-            gcc -o Chip8Interpreter src/*.c -I/usr/local/include/SDL2 -lSDL2 -lm
+            gcc -o Chip8Interpreter src/*.c -I/usr/local/Cellar/sdl2/2.0.14/include -L/usr/local/Cellar/sdl2/2.0.14/lib -lSDL2 -lm
           else
             gcc -o Chip8Interpreter src/*.c -lSDL2 -lm
           fi
