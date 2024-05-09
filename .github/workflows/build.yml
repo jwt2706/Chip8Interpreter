@@ -7,17 +7,31 @@ on:
     branches: [main]
 
 jobs:
-  build-linux-windows:
+  build-linux:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - name: Install dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y libsdl2-dev mingw-w64
+          sudo apt-get install -y libsdl2-dev
       - name: Build for Linux
         run: |
           gcc -o Chip8Interpreter src/*.c -lSDL2 -lm
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: Chip8Interpreter-Linux
+          path: ./Chip8Interpreter
+
+  build-windows:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y mingw-w64
       - name: Setup SDL2 for Windows
         run: |
           wget https://www.libsdl.org/release/SDL2-devel-2.0.14-VC.zip
@@ -32,11 +46,6 @@ jobs:
       - name: Upload artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: Chip8Interpreter-Linux
-          path: ./Chip8Interpreter
-      - name: Upload artifacts
-        uses: actions/upload-artifact@v2
-        with:
           name: Chip8Interpreter-Windows
           path: ./Chip8Interpreter.exe
 
@@ -47,12 +56,6 @@ jobs:
       - name: Install dependencies
         run: |
           brew install sdl2
-      - name: Get info about sdl2
-        run: |
-          brew info sdl2
-      - name: List contents of SDL2 include directory
-        run: |
-          ls /opt/homebrew/Cellar/sdl2/2.30.2/include/SDL2
       - name: Build for macOS
         run: |
           gcc -o Chip8Interpreter src/*.c -I/opt/homebrew/Cellar/sdl2/2.30.2/include -L/opt/homebrew/Cellar/sdl2/2.30.2/lib -lSDL2 -lm
