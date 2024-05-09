@@ -1,9 +1,4 @@
-#ifdef _WIN32
-#define mainF SDL_main
-#else
-#define mainF main
-#endif
-
+#define SDL_MAIN_HANDLED
 #include <SDL2/SDL.h>
 #include <stdio.h>
 #include "../include/sdlutils.h"
@@ -11,7 +6,7 @@
 #include "../include/chip8.h"
 #include "../include/load.h"
 
-int mainF(int argc, char *argv[])
+int main(int argc, char *argv[])
 {
     // init sdl2
     SDLComponents components;
