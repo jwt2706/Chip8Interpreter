@@ -47,6 +47,9 @@ jobs:
       - name: Install dependencies
         run: |
           brew install sdl2
+      - name: Get info about sdl2
+        run: |
+          brew info sdl2
       - name: Move SDL2 headers into SDL2 directory
         run: |
           sudo mkdir /usr/local/include/SDL2
