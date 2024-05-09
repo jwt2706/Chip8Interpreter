@@ -7,7 +7,7 @@ on:
     branches: [main]
 
 jobs:
-  build:
+  build-linux-windows:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -29,17 +29,6 @@ jobs:
       - name: Build for Windows
         run: |
           x86_64-w64-mingw32-gcc -o Chip8Interpreter.exe src/*.c -I SDL2-2.0.14/include -L SDL2-2.0.14/lib/x64 -lmingw32 -lSDL2main -lSDL2 -lm
-      - name: Setup osxcross
-        run: |
-          sudo apt-get install -y clang cmake git lzma-dev libxml2-dev libssl-dev zlib1g-dev
-          git clone https://github.com/tpoechtrager/osxcross
-          cd osxcross
-          wget -P tarballs https://github.com/phracker/MacOSX-SDKs/releases/download/10.13/MacOSX10.11.sdk.tar.xz
-          UNATTENDED=yes OSX_VERSION_MIN=10.6 ./build.sh
-      - name: Build for macOS
-        run: |
-          PATH=$PATH:$(pwd)/osxcross/target/bin
-          o64-clang -o Chip8Interpreter src/*.c -lSDL2 -lm
       - name: Upload artifacts
         uses: actions/upload-artifact@v2
         with:
@@ -50,6 +39,17 @@ jobs:
         with:
           name: Chip8Interpreter-Windows
           path: ./Chip8Interpreter.exe
+
+  build-macos:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install dependencies
+        run: |
+          brew install sdl2
+      - name: Build for macOS
+        run: |
+          gcc -o Chip8Interpreter src/*.c -lSDL2 -lm
       - name: Upload artifacts
         uses: actions/upload-artifact@v2
         with:
