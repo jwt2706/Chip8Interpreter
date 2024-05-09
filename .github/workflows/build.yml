@@ -47,16 +47,13 @@ jobs:
       - name: Install dependencies
         run: |
           brew install sdl2
-      - name: Get info about sdl2
+      - name: Create SDL2 directory and move SDL2 headers into it
         run: |
-          brew info sdl2
-      - name: Move SDL2 headers into SDL2 directory
-        run: |
-          sudo mkdir /usr/local/include/SDL2
-          sudo mv /usr/local/include/*.h /usr/local/include/SDL2
+          sudo mkdir -p /opt/homebrew/Cellar/sdl2/2.30.2/include/SDL2
+          sudo mv /opt/homebrew/Cellar/sdl2/2.30.2/include/*.h /opt/homebrew/Cellar/sdl2/2.30.2/include/SDL2
       - name: Build for macOS
         run: |
-          gcc -o Chip8Interpreter src/*.c -lSDL2 -lm
+          gcc -o Chip8Interpreter src/*.c -I/opt/homebrew/Cellar/sdl2/2.30.2/include -lSDL2 -lm
       - name: Upload artifacts
         uses: actions/upload-artifact@v2
         with:
