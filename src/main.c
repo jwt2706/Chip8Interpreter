@@ -1,4 +1,5 @@
 #include <SDL2/SDL.h>
+#include <stdio.h>
 #include "../include/sdlutils.h"
 #include "../include/keyboard.h"
 #include "../include/chip8.h"
@@ -24,7 +25,7 @@ int main(int argc, char *argv[])
     if (argc >= 2)
         romName = argv[1];
     char rom[265];
-    printf(rom, sizeof(rom), "roms/%s", romName);
+    snprintf(rom, sizeof(rom), "roms/%s", romName);
     loadRom(&chip8, rom);
 
     // get delay
