@@ -1,8 +1,8 @@
 # CHIP-8 Emulator/Interpreter
 
-[![GCC build](https://github.com/jwt2706/Chip8Interpreter/actions/workflows/gcc.yml/badge.svg?branch=main)](https://github.com/jwt2706/Chip8Interpreter/actions/workflows/gcc.yml)
+[![Build](https://github.com/jwt2706/Chip8Interpreter/actions/workflows/build.yml/badge.svg)](https://github.com/jwt2706/Chip8Interpreter/actions/workflows/build.yml)
 
-This is a CHIP-8 interpreter, built with SDL2. It mimics the CHIP-8 system and includes emulation for the COSMAC VIP hexadecimal keyboard layout. It's is still not complete, but works enough to load some ROMs and play a bit.
+This is a CHIP-8 interpreter, built with SDL2. It mimics the CHIP-8 system and includes emulation for the COSMAC VIP hexadecimal keyboard layout. It's still not complete, but works enough to load some ROMs and play a bit.
 
 [What is CHIP-8?](https://wikipedia.org/wiki/CHIP-8)
 
@@ -18,7 +18,7 @@ This project is dependant on the **SDL2 library**. Please make sure you lookup h
 
 ### Installation
 
-1. Download the latest version from the [releases tab](https://github.com/jwt2706/Chip8Interpreter/releases/latest) and place it in a directory of your choice.
+1. Download the latest version from the [releases tab](https://github.com/jwt2706/Chip8Interpreter/releases/latest) and place it in a directory of your choice. (As of now, windows, mac and debian-based linux distros have builds. If you're running something else, you may have to compile from source.)
 
 2. Create a `roms` directory in the same directory as the executable. This is where you'll place the CHIP-8 ROM files.
 
@@ -46,7 +46,7 @@ About the controls for the actual games, it's always different... just trial and
 
 ## Compile from source
 
-I'm not going to write instructions on how to compile from source because I figure if you're trying to do this, you alreay know what you are doing. :)
+I'm not going to write instructions on how to compile from source because I figure if you're trying to do this, you already know what you are doing. :)
 
 ## Acknowledgements
 

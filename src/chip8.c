@@ -172,7 +172,7 @@ void cycle(struct chip8 *chip8)
         chip8->V[X] = (rand() % 256) & NN;
         chip8->pc += 2;
         break;
-    case 0xD000: // DXYN: Draws a sprite at coordinate (VX, VY) that has a width of 8 pixels and a height of N pixels
+    case 0xD000:; // DXYN: Draws a sprite at coordinate (VX, VY) that has a width of 8 pixels and a height of N pixels
         unsigned short x = chip8->V[X];
         unsigned short y = chip8->V[Y];
         unsigned short height = N;

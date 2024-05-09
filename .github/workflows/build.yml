@@ -1,0 +1,66 @@
+name: Build
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build-linux:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libsdl2-dev
+      - name: Build for Linux
+        run: |
+          gcc -o Chip8Interpreter src/*.c -lSDL2 -lm
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: Chip8Interpreter-Linux
+          path: ./Chip8Interpreter
+
+  build-windows:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y mingw-w64
+      - name: Setup SDL2 for Windows
+        run: |
+          wget https://www.libsdl.org/release/SDL2-devel-2.0.14-VC.zip
+          unzip SDL2-devel-2.0.14-VC.zip
+      - name: Move SDL2 headers into SDL2 directory
+        run: |
+          mkdir SDL2-2.0.14/include/SDL2
+          mv SDL2-2.0.14/include/*.h SDL2-2.0.14/include/SDL2
+      - name: Build for Windows
+        run: |
+          x86_64-w64-mingw32-gcc -o Chip8Interpreter.exe src/*.c -I SDL2-2.0.14/include -L SDL2-2.0.14/lib/x64 -lmingw32 -lSDL2main -lSDL2 -lm
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: Chip8Interpreter-Windows
+          path: ./Chip8Interpreter.exe
+
+  build-macos:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install dependencies
+        run: |
+          brew install sdl2
+      - name: Build for macOS
+        run: |
+          gcc -o Chip8Interpreter src/*.c -I/opt/homebrew/Cellar/sdl2/2.30.2/include -L/opt/homebrew/Cellar/sdl2/2.30.2/lib -lSDL2 -lm
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: Chip8Interpreter-macOS
+          path: ./Chip8Interpreter
