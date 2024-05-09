@@ -47,6 +47,10 @@ jobs:
       - name: Install dependencies
         run: |
           brew install sdl2
+      - name: Move SDL2 headers into SDL2 directory
+        run: |
+          sudo mkdir /usr/local/include/SDL2
+          sudo mv /usr/local/include/*.h /usr/local/include/SDL2
       - name: Build for macOS
         run: |
           gcc -o Chip8Interpreter src/*.c -lSDL2 -lm
