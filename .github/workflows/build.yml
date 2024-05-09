@@ -55,7 +55,7 @@ jobs:
           ls /opt/homebrew/Cellar/sdl2/2.30.2/include/SDL2
       - name: Build for macOS
         run: |
-          gcc -o Chip8Interpreter src/*.c -I/opt/homebrew/Cellar/sdl2/2.30.2/include -lSDL2 -lm
+          gcc -o Chip8Interpreter src/*.c -I/opt/homebrew/Cellar/sdl2/2.30.2/include -L/opt/homebrew/Cellar/sdl2/2.30.2/lib -lSDL2 -lm
       - name: Upload artifacts
         uses: actions/upload-artifact@v2
         with:
